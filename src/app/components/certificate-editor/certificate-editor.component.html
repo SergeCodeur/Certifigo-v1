@@ -1,0 +1,62 @@
+<div class="editor-container">
+    <!-- Formulaire d'édition -->
+    <div class="editor-form">
+        <form [formGroup]="certificateForm" class="form-content">
+            <h2>Édition du certificat</h2>
+
+            <mat-form-field appearance="fill">
+                <mat-label>Nom</mat-label>
+                <input matInput formControlName="lastName">
+            </mat-form-field>
+
+            <mat-form-field appearance="fill">
+                <mat-label>Prénom</mat-label>
+                <input matInput formControlName="firstName">
+            </mat-form-field>
+
+            <mat-form-field appearance="fill">
+                <mat-label>Date de complétion</mat-label>
+                <input matInput [matDatepicker]="picker" formControlName="completionDate">
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+
+            <mat-form-field appearance="fill">
+                <mat-label>Nom du signataire</mat-label>
+                <input matInput formControlName="issuerName">
+            </mat-form-field>
+
+            <div class="logo-upload">
+                <label>Logo de l'institution</label>
+                <input type="file" (change)="onLogoSelected($event)" accept="image/*">
+            </div>
+
+            <button mat-raised-button color="primary" (click)="exportToPDF()">
+                Exporter en PDF
+            </button>
+        </form>
+    </div>
+
+    <!-- Prévisualisation du certificat -->
+    <div class="certificate-preview" id="certificate-preview">
+        <div class="certificate-content">
+            <!-- Image de fond -->
+            <img src="assets/images/certificate-template.png" alt="Modèle de certificat" class="certificate-background">
+
+            <div class="certificate-body">
+                <h1 class="certificate-title">Certificat de réussite</h1>
+                <p class="recipient">Décerné à</p>
+                <h2 class="recipient-name">
+                    {{certificateForm.get('firstName')?.value}} {{certificateForm.get('lastName')?.value}}
+                </h2>
+                <p class="completion-date" *ngIf="certificateForm.get('completionDate')?.value">
+                    Le {{certificateForm.get('completionDate')?.value | date:'longDate'}}
+                </p>
+                <p class="issuer" *ngIf="certificateForm.get('issuerName')?.value">
+                    Signé par: {{certificateForm.get('issuerName')?.value}}
+                </p>
+            </div>
+        </div>
+    </div>
+
+</div>
