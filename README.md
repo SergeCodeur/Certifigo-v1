@@ -1,67 +1,74 @@
----
-# EnsitechGroupe3
+# Certifigo
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 16.2.16.
----
+Certifigo est une application de génération de certificats professionnels. Elle permet aux entreprises, formateurs et organisations de créer des certificats personnalisés en quelques clics.
 
-## 🔑 Login Credentials
+## 🚀 Fonctionnalités principales à venir
 
-The application has two user roles for access:
-
-1. **Director**
-
-   - **Username:** `Patrick`
-   - **Password:** `AE!rkN$ba3y6zoS!`
-
-2. **Head of Studies**
-   - **Username:** `Sophie`
-   - **Password:** `Q&is4FmEGedAFmek`
-
-### How to Log In
-
-- Navigate to the login page: `http://localhost:4200/login`
-- Enter the credentials for your role.
-- Depending on your role, you will access different functionalities of the application.
+- **Génération de certificats** : Création et personnalisation facile.
+- **Import CSV** : Génération en masse de plusieurs certificats.
+- **Export PDF** : Téléchargement des certificats au format PDF.
+- **Stockage des données** : Sauvegarde automatique des informations.
+- **QR Code intégré** : Vérification rapide de l'authenticité du certificat.
 
 ---
 
-## Development Server
+## 💻 Installation & Démarrage
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+### Prérequis
 
----
+- **Node.js 18**
+- **Angular 16+**
 
-## Code Scaffolding
+### Installation
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+```bash
+# Clone du repo
+git clone https://github.com/ton-repo/certifigo.git
+cd certifigo
 
----
+# Installation des dépendances
+pnpm install
+```
 
-## Build
+### Lancement en local
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+```bash
+pnpm start
+```
 
----
-
-## Running Unit Tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
----
-
-## Running End-to-End Tests
-
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+L'application sera disponible sur `http://localhost:4200/`.
 
 ---
 
-## Further Help
+## 🔧 Développement
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+### Stack technique
+
+- **Angular 16+**
+- **TypeScript**
+- **RxJS**
+- **HTML/CSS**
+
+### Structure du projet
+
+```
+📂 src/
+ ├── app/
+ │   ├── components/   # Composants Angular
+ │   ├── services/     # Services pour la gestion des données
+ │   ├── models/       # Modèles de données
+ │   ├── assets/       # Images et fichiers statiques
+ │   ├── styles/       # Styles globaux
+ │   ├── app.component.ts # Composant principal
+ ├── main.ts          # Bootstrap de l'application (sans NgModule)
+```
+
+### Déploiement
+
+```bash
+ng build --prod
+```
+
+Les fichiers générés seront disponibles dans `dist/`.
 
 ---
-
-### Notes
-
-- If you need to reset the default credentials, you can do so in the `localStorage` or through the admin panel (if implemented).
-- Ensure that your backend is properly configured to validate these credentials if server-side authentication is used.
