@@ -1,62 +1,124 @@
-<div class="editor-container">
-    <!-- Formulaire d'édition -->
-    <div class="editor-form">
-        <form [formGroup]="certificateForm" class="form-content">
-            <h2>Édition du certificat</h2>
+<div class="certificat-page-container">
+    <div class="content">
+        <!-- Formulaire d'édition -->
+        <div class="editor-form ">
+            <form [formGroup]="certificateForm" class="form-content">
 
-            <mat-form-field appearance="fill">
-                <mat-label>Nom</mat-label>
-                <input matInput formControlName="lastName">
-            </mat-form-field>
+                <div class="input-container">
+                    <span>Nom</span>
+                    <input formControlName="lastName">
+                </div>
 
-            <mat-form-field appearance="fill">
-                <mat-label>Prénom</mat-label>
-                <input matInput formControlName="firstName">
-            </mat-form-field>
+                <div class="input-container">
+                    <span>Prénom</span>
+                    <input formControlName="firstName">
+                </div>
 
-            <mat-form-field appearance="fill">
-                <mat-label>Date de complétion</mat-label>
-                <input matInput [matDatepicker]="picker" formControlName="completionDate">
-                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                <mat-datepicker #picker></mat-datepicker>
-            </mat-form-field>
+                <div class="input-container">
+                    <span>Description</span>
+                    <textarea rows="4" formControlName="description"></textarea>
+                </div>
 
-            <mat-form-field appearance="fill">
-                <mat-label>Nom du signataire</mat-label>
-                <input matInput formControlName="issuerName">
-            </mat-form-field>
+                <div class="input-container">
+                    <span>Date de complétion</span>
+                    <input type="date" formControlName="completionDate" class="date-picker">
+                </div>
 
-            <div class="logo-upload">
-                <label>Logo de l'institution</label>
-                <input type="file" (change)="onLogoSelected($event)" accept="image/*">
+                <div class="input-container">
+                    <span>Nom du signataire</span>
+                    <input formControlName="issuerName">
+                </div>
+
+                <div class="input-container">
+                    <span>Travail du signataire</span>
+                    <input formControlName="issuerJob">
+                </div>
+
+                <div class="logo-upload">
+                    <label>Logo de l'institution</label>
+                    <input type="file" (change)="onLogoSelected($event)" accept="image/*">
+                </div>
+
+                <div class="qrcode-upload">
+                    <label>Image du QrCode</label>
+                    <input type="file" (change)="onQrCodeSelected($event)" accept="image/*">
+                </div>
+            </form>
+        </div>
+        <div class="editor-container">
+
+            <!-- Header -->
+            <div class="header">
+                <h2 class="editor-title">Édition du certificat</h2>
+                <button color="primary" (click)="exportToPDF()" class="export-button">
+                    <span>Exporter en PDF</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                        stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                        class="lucide lucide-file-text">
+                        <path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z" />
+                        <path d="M14 2v4a2 2 0 0 0 2 2h4" />
+                        <path d="M10 9H8" />
+                        <path d="M16 13H8" />
+                        <path d="M16 17H8" />
+                    </svg>
+                </button>
             </div>
 
-            <button mat-raised-button color="primary" (click)="exportToPDF()">
-                Exporter en PDF
-            </button>
-        </form>
-    </div>
+            <!-- Prévisualisation du certificat -->
+            <div class="certificate-preview" id="certificate-preview">
+                <div class="certificate-content">
+                    <!-- Image de fond -->
+                    <img src="assets/images/certificate-template.png" alt="Modèle de certificat"
+                        class="certificate-background">
 
-    <!-- Prévisualisation du certificat -->
-    <div class="certificate-preview" id="certificate-preview">
-        <div class="certificate-content">
-            <!-- Image de fond -->
-            <img src="assets/images/certificate-template.png" alt="Modèle de certificat" class="certificate-background">
+                    <!-- Certificate body -->
+                    <div class="certificate-body">
+                        <div>
+                            <ng-container *ngIf="previewImageUrl; else noLogo">
+                                <div class="logo-container">
+                                    <img [src]="previewImageUrl" alt="Logo" class="institution-logo">
+                                </div>
+                            </ng-container>
+                            <ng-template #noLogo>
+                                <div class="logo-container">
+                                    <div>
+                                        <p>Aucun logo téléchargé</p>
+                                    </div>
+                                </div>
+                            </ng-template>
+                            <div class="qrCOde-container" *ngIf="previewQrCodeImageUrl">
+                                <img [src]="previewQrCodeImageUrl" alt="qrCOde" class="qr-code">
+                            </div>
+                        </div>
+                        <div class="right-content">
+                            <div class="header-title">
+                                <h2 class="header-h2">Nous certifions par la présente que</h2>
+                                <h2 class="recipient-name">
+                                    {{certificateForm.get('lastName')?.value}}
+                                    {{certificateForm.get('firstName')?.value}}
+                                </h2>
+                            </div>
+                            <p class="description">
+                                {{ certificateForm.get('description')?.value }}
+                                <span *ngIf="certificateForm.get('completionDate')?.value; else noDate">
+                                    {{ formattedCompletionDate }}.
+                                </span>
+                                <ng-template #noDate>
+                                    <span>{{todayFormattedDate}}</span>
+                                </ng-template>
+                            </p>
 
-            <div class="certificate-body">
-                <h1 class="certificate-title">Certificat de réussite</h1>
-                <p class="recipient">Décerné à</p>
-                <h2 class="recipient-name">
-                    {{certificateForm.get('firstName')?.value}} {{certificateForm.get('lastName')?.value}}
-                </h2>
-                <p class="completion-date" *ngIf="certificateForm.get('completionDate')?.value">
-                    Le {{certificateForm.get('completionDate')?.value | date:'longDate'}}
-                </p>
-                <p class="issuer" *ngIf="certificateForm.get('issuerName')?.value">
-                    Signé par: {{certificateForm.get('issuerName')?.value}}
-                </p>
+                            <span class="separator"></span>
+                            <p class="issuer" *ngIf="certificateForm.get('issuerName')?.value">
+                                {{certificateForm.get('issuerName')?.value}}
+                            </p>
+                            <p class="issuer-job" *ngIf="certificateForm.get('issuerJob')?.value">
+                                {{certificateForm.get('issuerJob')?.value}}
+                            </p>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-
 </div>
