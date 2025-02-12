@@ -84,7 +84,7 @@ export class CertificateEditorComponent implements OnInit {
   }
 
   exportToPDF(): void {
-    const certificateElement = document.getElementById('certificate-content');
+    const certificateElement = document.getElementById('certificat-container');
     if (certificateElement) {
       html2canvas(certificateElement, { scale: 2 }).then((canvas) => {
         const imgData = canvas.toDataURL('image/png');
